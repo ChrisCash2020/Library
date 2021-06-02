@@ -4,41 +4,49 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Library</title>
+    <title>Document</title>
     <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mulish&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+      integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
     <div class="container">
-      <h1 class="heading">My book library</h1>
-      <form class="add-book">
-        <div class="row">
-          <div class="column">
-            <label for="title">Book</label>
-            <input type="text" name="title" id="title" />
+      <div class="nav">
+        <div class="heading">My Library</div>
+        <div class="column log-container">
+          <div class="column log-items">
+            <h1 style="text-align: center">Library log</h1>
+            <div class="row">
+              <p>Total books:</p>
+              <p class="count"></p>
+            </div>
+            <div class="row">
+              <p>Read</p>
+              <div class="legend1"></div>
+            </div>
+            <div class="row">
+              <p>Not Read</p>
+              <div class="legend2"></div>
+            </div>
           </div>
-          <div class="column">
-            <label for="title">Author</label>
-            <input type="text" name="author" id="author" />
-          </div>
-          <div class="column">
-            <label for="title">Status</label>
-            <select name="status" id="status">
-              <option value="read">Read</option>
-              <option value="not-read">Not Read</option>
-            </select>
-          </div>
+          <p>Dark Mode: <i class="fas fa-adjust"></i></p>
         </div>
-        <input type="submit" value="Submit" id="submit" />
-      </form>
-      <div class="main-container">
-        <div class="card-container">
-          <button class="remove red">Remove</button>
-          <div class="card">
-            <h1 class="title">
-              Harry Potter and the Philosopher's Stone English
-            </h1>
-            <p class="author">J.K Rowling</p>
-          </div>
+      </div>
+      <div class="main">
+        <div class="column card">
+          <p class="title">Harry Potter</p>
+          <p class="author">By:</p>
+          <p class="pg-num">Number of pages:</p>
+          <p class="publishment">Published:</p>
         </div>
       </div>
     </div>
