@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="heading">My book library</h1>
+      <form class="add-book">
+        <div class="row">
+          <div class="column">
+            <label for="title">Book</label>
+            <input type="text" name="title" id="title" />
+          </div>
+          <div class="column">
+            <label for="title">Author</label>
+            <input type="text" name="author" id="author" />
+          </div>
+          <div class="column">
+            <label for="title">Status</label>
+            <select name="status" id="status">
+              <option value="read">Read</option>
+              <option value="not-read">Not Read</option>
+            </select>
+          </div>
+        </div>
+        <input type="submit" value="Submit" id="submit" />
+      </form>
+      <div class="main-container">
+        <div class="card-container">
+          <button class="remove red">Remove</button>
+          <div class="card">
+            <h1 class="title">
+              Harry Potter and the Philosopher's Stone English
+            </h1>
+            <p class="author">J.K Rowling</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="./app.js"></script>
+</html>
