@@ -2,15 +2,74 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Mulish', sans-serif;
 }
 body {
-  padding: 5% 10%;
+  padding: 5% 15%;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100vw;
   min-height: 100vh;
   font-family: 'Mulish', sans-serif;
+  position: relative;
+}
+.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+form {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  padding: 5vh 3vw;
+  width: 450px;
+  height: 600px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+form h1 {
+  text-align: center;
+  margin-bottom: 3vh;
+  color: #949494;
+}
+form input,
+form select {
+  margin-bottom: 3vh;
+  padding: 8px;
+}
+.edit-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.edit-container input:first-child {
+  width: 50%;
+}
+.edit-container input {
+  background-color: white;
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+.form-btn {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  box-shadow: 0 0 5px #ccc;
+  background-color: #ffe149;
+  text-shadow: -1px 1px 0 #000;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
 }
 .container {
   display: flex;
@@ -24,9 +83,17 @@ body {
   height: 220px;
 }
 .heading {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
   flex: 1;
   text-shadow: 2px 2px #949494;
   font-size: 2.25rem;
+}
+.heading img {
+  height: 6rem;
+  width: 6rem;
+  margin-right: 1rem;
 }
 .column {
   display: flex;
@@ -60,14 +127,14 @@ body {
 }
 .legend1 {
   background: linear-gradient(
-    90deg,
+    240deg,
     hsla(33, 100%, 53%, 1) 0%,
     hsla(58, 100%, 68%, 1) 100%
   );
 }
 .legend2 {
   background: linear-gradient(
-    90deg,
+    240deg,
     hsla(186, 33%, 94%, 1) 0%,
     hsla(216, 41%, 79%, 1) 100%
   );
@@ -86,24 +153,60 @@ body {
   flex-wrap: wrap;
   flex-direction: row;
   min-height: 50vh;
-  margin-top: 5vh;
+  margin-top: 2.5vh;
   padding-top: 2vh;
-  border-top: 15px solid #dc493a;
+  border-top: 15px solid #ffe149;
 }
 .card {
   border: 1px solid transparent;
-  border-radius: 5px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
   background: linear-gradient(
-    90deg,
+    240deg,
     hsla(33, 100%, 53%, 1) 0%,
     hsla(58, 100%, 68%, 1) 100%
   );
   justify-content: space-around;
-  color: white;
+  color: black;
+  text-shadow: 2px 1px #ccc;
   height: 226px;
   width: 356px;
   padding: 30px 20px;
+  position: relative;
+}
+.card button {
+  font-size: 1.2rem;
+  color: black;
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.read-btn {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: black;
+}
+.ball-container {
+  width: 40px;
+  margin-left: 15px;
+  border: 1px solid black;
+  border-radius: 15px;
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+  padding: 2px;
+}
+.ball {
+  height: inherit;
+  width: 15px;
+  background-color: black;
+  border-radius: 50%;
 }
 .title {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }

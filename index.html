@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>My Library</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -19,9 +19,33 @@
     />
   </head>
   <body>
+      <form>
+          <h1>Add New Book</h1>
+          <label for="title">Book title:</label>
+          <input type="text" name="title" placeholder="Title" id="title">
+             <label for="author">Book author:</label>
+          <input type="text" name="author" placeholder="Author" id="author">
+             <label for="page-num">Number of pages:</label>
+          <input type="text" name="pages" placeholder="Number of pages" id="pages">
+             <label for="log-date">Log Date:</label>
+          <input type="text" name="log-date" placeholder="Reading start date" id="log-date">
+             <label for="status">Book status:</label>
+          <select name="status" id="status">
+              <option value="read">Finished Reading</option>
+              <option value="not-read">Not finished Reading</option>
+          </select>
+          <div class="edit-container">
+              <input type="submit" value="Add Book">
+              <input type="reset" value="Clear">
+          </div>
+      </form>
+      <div class="form-btn"><i class="fas fa-plus"></i></div>
     <div class="container">
       <div class="nav">
-        <div class="heading">My Library</div>
+        <div class="heading">
+          <img src="./undraw_book_lover_mkck (1).svg" alt="" />
+          <h1>My Library</h1>
+        </div>
         <div class="column log-container">
           <div class="column log-items">
             <h1 style="text-align: center">Library log</h1>
@@ -43,10 +67,20 @@
       </div>
       <div class="main">
         <div class="column card">
+          <button><i class="fas fa-trash-alt"></i></button>
           <p class="title">Harry Potter</p>
-          <p class="author">By:</p>
-          <p class="pg-num">Number of pages:</p>
-          <p class="publishment">Published:</p>
+          <p class="author">By: J.k Rowling</p>
+          <p class="pg-num">Number of pages: 223</p>
+          <p class="add-date">Log date: May 31 2021</p>
+          <div class="read-btn">
+              <p>Mark as Read:</p>
+               <div class="ball-container">
+                <span class="ball"></span>
+               </div>
+          </div>
+         
+          
+          </div>
         </div>
       </div>
     </div>
