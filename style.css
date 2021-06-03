@@ -195,11 +195,15 @@ form select {
   top: 10px;
   right: 10px;
 }
+.card p {
+  user-select: none;
+}
 .read {
   position: absolute;
   bottom: 10px;
   right: 65px;
 }
+
 .ball-container {
   background: inherit;
   cursor: pointer;
@@ -221,7 +225,4 @@ form select {
   width: 15px;
   background-color: black;
   border-radius: 50%;
-}
-.title {
-  font-size: 1.2rem;
 }

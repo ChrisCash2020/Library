@@ -12,32 +12,7 @@ let formStatus = document.querySelector('#status');
 let formSubmit = document.querySelector('#submit');
 let form = document.querySelector('form');
 let formOpen = document.querySelector('.form-btn');
-let formRemove = document.querySelectorAll('.remove');
-let ball = document.querySelectorAll('.ball-container');
 let mainContainer = document.querySelector('.main');
-let card = document.querySelector('.card');
-ball.forEach((element) => {
-  element.addEventListener('click', (e) => {
-    e.preventDefault();
-    let parent = element.parentElement;
-    if (element.style.justifyContent == 'flex-end') {
-      element.style.justifyContent = 'flex-start';
-      parent.style.background = 'var(--orange)';
-    } else {
-      element.style.justifyContent = 'flex-end';
-      parent.style.background = 'var(--grey)';
-    }
-  });
-});
-
-formRemove.forEach((element) => {
-  element.addEventListener('click', (e) => {
-    e.preventDefault();
-    let parent = element.parentElement;
-    parent.remove();
-  });
-});
-
 formOpen.addEventListener('click', (e) => {
   e.preventDefault();
   if (form.className != 'center') {
@@ -48,6 +23,22 @@ formOpen.addEventListener('click', (e) => {
     form.classList.remove('center');
     body.style.setProperty('--blur', null);
   }
+});
+formSubmit.addEventListener('click', (e) => {
+  e.preventDefault();
+  let newBook = new Book(
+    formTitle.value,
+    formAuthor.value,
+    formPage.value,
+    formLog.value,
+    formStatus.value
+  );
+  myLibrary.push(newBook);
+  console.log(myLibrary);
+  form.reset();
+  form.classList.remove('center');
+  body.style.setProperty('--blur', null);
+  return newBook.addBookToLibrary();
 });
 
 let myLibrary = [];
@@ -68,6 +59,7 @@ class Book {
     removeBtn.classList.add('remove');
     removeBtn.appendChild(trashIcon);
     let cardTitle = document.createElement('p');
+    cardTitle.style.fontSize = '1.2rem';
     cardTitle.textContent = `${this.title}`;
     let cardAuthor = document.createElement('p');
     cardAuthor.textContent = `By: ${this.author}`;
@@ -83,10 +75,10 @@ class Book {
     let ballSpan = document.createElement('span');
     ballSpan.className = 'ball';
     if (this.read === 'read') {
-      ballContainer.style.justifyContent = 'flex-end';
+      ballContainer.style.justifyContent = 'flex-start';
       cardContainer.style.background = 'var(--orange)';
     } else if (this.read == 'not-read') {
-      ballContainer.style.justifyContent = 'flex-start';
+      ballContainer.style.justifyContent = 'flex-end';
       cardContainer.style.background = 'var(--grey)';
     }
     ballContainer.appendChild(ballSpan);
@@ -101,25 +93,30 @@ class Book {
       ballContainer
     );
     mainContainer.appendChild(cardContainer);
+    removeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      let parent = cardContainer;
+      parent.remove();
+    });
+    ballContainer.addEventListener('click', (e) => {
+      e.preventDefault();
+      let parent = cardContainer;
+      if (ballContainer.style.justifyContent == 'flex-end') {
+        ballContainer.style.justifyContent = 'flex-start';
+        parent.style.background = 'var(--orange)';
+      } else {
+        ballContainer.style.justifyContent = 'flex-end';
+        parent.style.background = 'var(--grey)';
+      }
+    });
   }
 }
-
-formSubmit.addEventListener('click', (e) => {
-  e.preventDefault();
-  myLibrary.push(
-    new Book(
-      formTitle.value,
-      formAuthor.value,
-      formPage.value,
-      formLog.value,
-      formStatus.value
-    )
-  );
-  console.log(myLibrary);
-  form.reset();
-  myLibrary.forEach((element) => {
-    return element.addBookToLibrary();
-  });
-  form.classList.remove('center');
-  body.style.setProperty('--blur', null);
-});
+const harryPotter = new Book(
+  'Harry Potter',
+  'J.k Rowling',
+  '223',
+  'May 31, 2021',
+  'not-read'
+);
+myLibrary.push(harryPotter);
+harryPotter.addBookToLibrary();
