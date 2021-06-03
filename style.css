@@ -1,8 +1,24 @@
+:root {
+  --orange: linear-gradient(
+    240deg,
+    hsla(33, 100%, 53%, 1) 0%,
+    hsla(58, 100%, 68%, 1) 100%
+  );
+  --grey: linear-gradient(
+    240deg,
+    hsla(186, 33%, 94%, 1) 0%,
+    hsla(216, 41%, 79%, 1) 100%
+  );
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Mulish', sans-serif;
+}
+
+body > *:not(#form, #form-btn) {
+  filter: var(--blur, none);
 }
 body {
   padding: 5% 15%;
@@ -14,6 +30,7 @@ body {
   font-family: 'Mulish', sans-serif;
   position: relative;
 }
+
 .center {
   top: 50%;
   left: 50%;
@@ -26,16 +43,20 @@ form {
   padding: 5vh 3vw;
   width: 450px;
   height: 600px;
-  border: 2px solid #ccc;
+  border: 3px solid #ccc;
   border-radius: 5px;
   position: absolute;
   top: -9999px;
   left: -9999px;
+  z-index: 9999;
 }
 form h1 {
   text-align: center;
   margin-bottom: 3vh;
   color: #949494;
+}
+#log-date {
+  padding: 15px;
 }
 form input,
 form select {
@@ -49,6 +70,8 @@ form select {
 }
 .edit-container input:first-child {
   width: 50%;
+  background-color: #ffe149;
+  font-weight: bold;
 }
 .edit-container input {
   background-color: white;
@@ -126,18 +149,10 @@ form select {
   height: 20px;
 }
 .legend1 {
-  background: linear-gradient(
-    240deg,
-    hsla(33, 100%, 53%, 1) 0%,
-    hsla(58, 100%, 68%, 1) 100%
-  );
+  background: var(--orange);
 }
 .legend2 {
-  background: linear-gradient(
-    240deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
+  background: var(--grey);
 }
 .log-items h1 {
   text-shadow: 2px 2px #949494;
@@ -161,11 +176,7 @@ form select {
   border: 1px solid transparent;
   border-radius: 10px;
   box-shadow: 0 0 10px #ccc;
-  background: linear-gradient(
-    240deg,
-    hsla(33, 100%, 53%, 1) 0%,
-    hsla(58, 100%, 68%, 1) 100%
-  );
+  background: var(--orange);
   justify-content: space-around;
   color: black;
   text-shadow: 2px 1px #ccc;
@@ -192,6 +203,7 @@ form select {
   color: black;
 }
 .ball-container {
+  cursor: pointer;
   width: 40px;
   margin-left: 15px;
   border: 1px solid black;
