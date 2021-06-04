@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Library</title>
+    <link rel="shortcut icon" type="image" href="img/book.png">
     <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -17,18 +18,24 @@
       integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk"
       crossorigin="anonymous"
     />
+ 
   </head>
   <body>
       <form class="form" id="form">
+        <i class="fas fa-plus"></i>
           <h1>Add New Book</h1>
           <label for="title">Book title:</label>
           <input type="text" name="title" placeholder="Title" id="title">
+          <p>*Book title is required</p>
              <label for="author">Book author:</label>
           <input type="text" name="author" placeholder="Author" id="author">
+          <p>*Book author is required</p>
              <label for="page-num">Number of pages:</label>
-          <input type="number" name="pages" placeholder="Number of pages" id="pages">
+          <input type="number" name="pages" placeholder="Number of pages" id="pages" min="1" >
+          <p>*Book number of pages is required</p>
              <label for="log-date">Log Date:</label>
           <input type="date" name="log-date" placeholder="Reading start date" id="log-date">
+          <p>*Book log date is required</p>
              <label for="status">Book status:</label>
           <select name="status" id="status">
               <option value="read">Finished Reading</option>
@@ -62,7 +69,7 @@
               <div class="legend2"></div>
             </div>
           </div>
-          <p>Dark Mode: <i class="fas fa-adjust"></i></p>
+          <p>Dark Mode: <i class="fas fa-adjust dark-mode"></i></p>
         </div>
       </div>
       <div class="main">

@@ -38,17 +38,25 @@ body {
 }
 form {
   display: flex;
+  /* color: white; */
   flex-direction: column;
   font-size: 1rem;
   padding: 5vh 3vw;
   width: 450px;
-  height: 600px;
+  height: 660px;
   border: 3px solid #ccc;
   border-radius: 5px;
   position: absolute;
   top: -9999px;
   left: -9999px;
   z-index: 9999;
+}
+form i {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transform: rotate(45deg);
+  font-size: 1.2rem;
 }
 form h1 {
   text-align: center;
@@ -58,9 +66,25 @@ form h1 {
 #log-date {
   padding: 15px;
 }
-form input,
+form input + p,
 form select {
   margin-bottom: 3vh;
+}
+input + p {
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  color: orangered;
+  opacity: 0;
+  height: 0;
+  margin-bottom: 1vh;
+}
+input.invalid + p {
+  opacity: 1;
+  height: auto;
+}
+form input,
+form select {
   padding: 8px;
 }
 .edit-container {
@@ -131,11 +155,12 @@ form select {
 .log-container {
   justify-content: space-around;
   align-items: flex-end;
+  color: black;
 }
 .log-items {
   border: 1px solid black;
   box-shadow: 0 0 5px black;
-  color: black;
+  color: inherit;
   width: 250px;
   height: 180px;
   border-radius: 5px;
@@ -167,6 +192,7 @@ form select {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  color: black;
   flex-direction: row;
   min-height: 50vh;
   margin-top: 2.5vh;
@@ -179,7 +205,7 @@ form select {
   box-shadow: 0 0 10px #ccc;
   background: var(--orange);
   justify-content: space-around;
-  color: black;
+  color: inherit;
   text-shadow: 2px 1px #ccc;
   height: 226px;
   width: 356px;
@@ -188,7 +214,7 @@ form select {
 }
 .card button {
   font-size: 1.2rem;
-  color: black;
+  color: inherit;
   background-color: transparent;
   border: none;
   position: absolute;
@@ -225,4 +251,5 @@ form select {
   width: 15px;
   background-color: black;
   border-radius: 50%;
+  /* color: inherit */
 }

@@ -4,6 +4,7 @@ let fastAppend = (parent, ...children) => {
   });
 };
 let body = document.querySelector('body');
+let inputs = document.querySelectorAll('input');
 let formTitle = document.querySelector('#title');
 let formAuthor = document.querySelector('#author');
 let formPage = document.querySelector('#pages');
@@ -11,34 +12,66 @@ let formLog = document.querySelector('#log-date');
 let formStatus = document.querySelector('#status');
 let formSubmit = document.querySelector('#submit');
 let form = document.querySelector('form');
+let formClose = form.children[0];
 let formOpen = document.querySelector('.form-btn');
 let mainContainer = document.querySelector('.main');
+let darkMode = document.querySelector('.dark-mode');
+let logContainer = document.querySelector('.log-container');
+
+let isDark = true;
 formOpen.addEventListener('click', (e) => {
   e.preventDefault();
   if (form.className != 'center') {
     form.className = 'center';
-    console.log(form);
     body.style.setProperty('--blur', 'blur(5px)');
-  } else {
-    form.classList.remove('center');
-    body.style.setProperty('--blur', null);
   }
 });
-formSubmit.addEventListener('click', (e) => {
-  e.preventDefault();
-  let newBook = new Book(
-    formTitle.value,
-    formAuthor.value,
-    formPage.value,
-    formLog.value,
-    formStatus.value
+formClose.addEventListener('click', (e) => {
+  e.preventDefault;
+  inputs.forEach((input, index) =>
+    index < 4 ? input.classList.remove('invalid') : input
   );
-  myLibrary.push(newBook);
-  console.log(myLibrary);
   form.reset();
   form.classList.remove('center');
   body.style.setProperty('--blur', null);
-  return newBook.addBookToLibrary();
+});
+inputs[5].addEventListener('click', (e) => {
+  inputs.forEach((input, index) =>
+    index < 4 ? input.classList.remove('invalid') : input
+  );
+});
+formSubmit.addEventListener('click', (e) => {
+  let test = () => {
+    let returnVal;
+    inputs.forEach((input, index) => {
+      if (index < 4) {
+        let val = input.value;
+        if (val.length > 0) {
+          returnVal = true;
+          input.classList.remove('invalid');
+        } else {
+          returnVal = false;
+          input.classList.add('invalid');
+        }
+      }
+    });
+    return returnVal;
+  };
+  e.preventDefault();
+  if (test() == true) {
+    let newBook = new Book(
+      formTitle.value,
+      formAuthor.value,
+      formPage.value,
+      formLog.value,
+      formStatus.value
+    );
+    myLibrary.push(newBook);
+    form.reset();
+    form.classList.remove('center');
+    body.style.setProperty('--blur', null);
+    return newBook.addBookToLibrary();
+  }
 });
 
 let myLibrary = [];
@@ -51,6 +84,9 @@ class Book {
       (this.read = read);
   }
   addBookToLibrary() {
+    const d = new Date(this.logDate);
+    let dateFormat = d.toDateString('default', { month: 'long' });
+    dateFormat = dateFormat.slice(4);
     let cardContainer = document.createElement('div');
     cardContainer.classList.add('column', 'card');
     let removeBtn = document.createElement('button');
@@ -66,7 +102,7 @@ class Book {
     let cardPageNum = document.createElement('p');
     cardPageNum.textContent = `Number of page: ${this.page}`;
     let cardAddDate = document.createElement('p');
-    cardAddDate.textContent = `Log date: ${this.logDate}`;
+    cardAddDate.textContent = `Log date: ${dateFormat}`;
     let markRead = document.createElement('p');
     markRead.textContent = 'Mark as Read';
     markRead.className = 'read';
@@ -81,6 +117,28 @@ class Book {
       ballContainer.style.justifyContent = 'flex-end';
       cardContainer.style.background = 'var(--grey)';
     }
+    darkMode.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (isDark == true) {
+        body.style.backgroundColor = '#181A1B';
+        body.style.color = '#707070';
+        logContainer.style.color = '#707070';
+        logContainer.children[0].style.borderColor = '#707070';
+        mainContainer.style.color = '#707070';
+        ballSpan.style.backgroundColor = '#707070';
+        form.style.color = 'white';
+        isDark = false;
+      } else if (isDark == false) {
+        body.style.backgroundColor = 'white';
+        body.style.color = 'black';
+        logContainer.style.color = 'black';
+        logContainer.children[0].style.borderColor = 'black';
+        mainContainer.style.color = 'black';
+        ballSpan.style.backgroundColor = 'black';
+        form.style.color = 'black';
+        isDark = true;
+      }
+    });
     ballContainer.appendChild(ballSpan);
     fastAppend(
       cardContainer,
@@ -97,6 +155,11 @@ class Book {
       e.preventDefault();
       let parent = cardContainer;
       parent.remove();
+      myLibrary.map((element) => {
+        if (element.title == this.title) {
+          myLibrary.splice(myLibrary.indexOf(element), 1);
+        }
+      });
     });
     ballContainer.addEventListener('click', (e) => {
       e.preventDefault();
