@@ -152,6 +152,9 @@ form select {
   width: 100%;
   justify-content: space-between;
 }
+.count {
+  padding-right: 5px;
+}
 .log-container {
   justify-content: space-around;
   align-items: flex-end;

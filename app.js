@@ -1,3 +1,4 @@
+let myLibrary = [];
 let fastAppend = (parent, ...children) => {
   children.forEach((child) => {
     parent.appendChild(child);
@@ -17,29 +18,9 @@ let formOpen = document.querySelector('.form-btn');
 let mainContainer = document.querySelector('.main');
 let darkMode = document.querySelector('.dark-mode');
 let logContainer = document.querySelector('.log-container');
-
+let bookCount = document.querySelector('.count');
 let isDark = true;
-formOpen.addEventListener('click', (e) => {
-  e.preventDefault();
-  if (form.className != 'center') {
-    form.className = 'center';
-    body.style.setProperty('--blur', 'blur(5px)');
-  }
-});
-formClose.addEventListener('click', (e) => {
-  e.preventDefault;
-  inputs.forEach((input, index) =>
-    index < 4 ? input.classList.remove('invalid') : input
-  );
-  form.reset();
-  form.classList.remove('center');
-  body.style.setProperty('--blur', null);
-});
-inputs[5].addEventListener('click', (e) => {
-  inputs.forEach((input, index) =>
-    index < 4 ? input.classList.remove('invalid') : input
-  );
-});
+document.addEventListener('DOMContentLoaded', getTasks);
 formSubmit.addEventListener('click', (e) => {
   let test = () => {
     let returnVal;
@@ -66,6 +47,7 @@ formSubmit.addEventListener('click', (e) => {
       formLog.value,
       formStatus.value
     );
+    storeTaskInLocalStorage(newBook);
     myLibrary.push(newBook);
     form.reset();
     form.classList.remove('center');
@@ -73,8 +55,64 @@ formSubmit.addEventListener('click', (e) => {
     return newBook.addBookToLibrary();
   }
 });
+function storeTaskInLocalStorage(task) {
+  let tasks;
+  if (localStorage.getItem('tasks') === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+  tasks.push(task);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+function removeTaskFromLocalStorage(taskItem) {
+  let tasks;
+  if (localStorage.getItem('tasks') === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+  tasks.map((element, index) => {
+    if (element.title == taskItem.title) {
+      tasks.splice(index, 1);
+    }
+  });
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+function getTasks() {
+  let tasks;
+  if (localStorage.getItem('tasks') === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+    tasks.forEach(function (task) {
+      Object.setPrototypeOf(task, Book);
+      task.prototype.addBookToLibrary(task);
+    });
+  }
+}
+formOpen.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (form.className != 'center') {
+    form.className = 'center';
+    body.style.setProperty('--blur', 'blur(5px)');
+  }
+});
+formClose.addEventListener('click', (e) => {
+  e.preventDefault;
+  inputs.forEach((input, index) =>
+    index < 4 ? input.classList.remove('invalid') : input
+  );
+  form.reset();
+  form.classList.remove('center');
+  body.style.setProperty('--blur', null);
+});
+inputs[5].addEventListener('click', (e) => {
+  inputs.forEach((input, index) =>
+    index < 4 ? input.classList.remove('invalid') : input
+  );
+});
 
-let myLibrary = [];
 class Book {
   constructor(title, author, page, logDate, read) {
     (this.title = title),
@@ -83,8 +121,8 @@ class Book {
       (this.logDate = logDate),
       (this.read = read);
   }
-  addBookToLibrary() {
-    const d = new Date(this.logDate);
+  addBookToLibrary(x) {
+    const d = new Date(x == undefined ? this.logDate : x.logDate);
     let dateFormat = d.toDateString('default', { month: 'long' });
     dateFormat = dateFormat.slice(4);
     let cardContainer = document.createElement('div');
@@ -96,11 +134,13 @@ class Book {
     removeBtn.appendChild(trashIcon);
     let cardTitle = document.createElement('p');
     cardTitle.style.fontSize = '1.2rem';
-    cardTitle.textContent = `${this.title}`;
+    cardTitle.textContent = `${x == undefined ? this.title : x.title}`;
     let cardAuthor = document.createElement('p');
-    cardAuthor.textContent = `By: ${this.author}`;
+    cardAuthor.textContent = `By: ${x == undefined ? this.author : x.author}`;
     let cardPageNum = document.createElement('p');
-    cardPageNum.textContent = `Number of page: ${this.page}`;
+    cardPageNum.textContent = `Number of page: ${
+      x == undefined ? this.page : x.page
+    }`;
     let cardAddDate = document.createElement('p');
     cardAddDate.textContent = `Log date: ${dateFormat}`;
     let markRead = document.createElement('p');
@@ -110,13 +150,25 @@ class Book {
     ballContainer.className = 'ball-container';
     let ballSpan = document.createElement('span');
     ballSpan.className = 'ball';
-    if (this.read === 'read') {
-      ballContainer.style.justifyContent = 'flex-start';
-      cardContainer.style.background = 'var(--orange)';
-    } else if (this.read == 'not-read') {
-      ballContainer.style.justifyContent = 'flex-end';
-      cardContainer.style.background = 'var(--grey)';
+    if (x == undefined) {
+      if (this.read === 'read') {
+        ballContainer.style.justifyContent = 'flex-start';
+        cardContainer.style.background = 'var(--orange)';
+      } else if (this.read == 'not-read') {
+        ballContainer.style.justifyContent = 'flex-end';
+        cardContainer.style.background = 'var(--grey)';
+      }
+    } else {
+      if (x.read === 'read') {
+        ballContainer.style.justifyContent = 'flex-start';
+        cardContainer.style.background = 'var(--orange)';
+      } else if (x.read == 'not-read') {
+        ballContainer.style.justifyContent = 'flex-end';
+        cardContainer.style.background = 'var(--grey)';
+      }
     }
+
+    bookCount.textContent = `${myLibrary.length}`;
     darkMode.addEventListener('click', (e) => {
       e.preventDefault();
       if (isDark == true) {
@@ -154,12 +206,23 @@ class Book {
     removeBtn.addEventListener('click', (e) => {
       e.preventDefault();
       let parent = cardContainer;
+      // parent.remove();
+      if (x == undefined) {
+        myLibrary.map((element) => {
+          if (element.title == this.title) {
+            myLibrary.splice(myLibrary.indexOf(element), 1);
+          }
+        });
+      } else {
+        myLibrary.map((element) => {
+          if (element.title == x.title) {
+            myLibrary.splice(myLibrary.indexOf(element), 1);
+          }
+          removeTaskFromLocalStorage(x);
+        });
+      }
+
       parent.remove();
-      myLibrary.map((element) => {
-        if (element.title == this.title) {
-          myLibrary.splice(myLibrary.indexOf(element), 1);
-        }
-      });
     });
     ballContainer.addEventListener('click', (e) => {
       e.preventDefault();
@@ -183,3 +246,4 @@ const harryPotter = new Book(
 );
 myLibrary.push(harryPotter);
 harryPotter.addBookToLibrary();
+// harryPotter.storeTaskInLocalStorage();
