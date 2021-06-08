@@ -17,7 +17,6 @@ let formOpen = document.querySelector('.form-btn');
 let mainContainer = document.querySelector('.main');
 let darkMode = document.querySelector('.dark-mode');
 let logContainer = document.querySelector('.log-container');
-let darkObj = document.querySelector('.dark-mode');
 let bookCount = document.querySelector('.count');
 let isDark = true;
 document.addEventListener('DOMContentLoaded', getBooks);
@@ -176,7 +175,7 @@ class Book {
         mainContainer.style.color = '#707070';
         ballSpan.style.backgroundColor = '#707070';
         form.style.color = 'white';
-        darkObj.style.borderColor = 'white';
+        darkMode.style.borderColor = 'white';
         isDark = false;
       } else if (isDark == false) {
         body.style.backgroundColor = 'white';
@@ -186,7 +185,7 @@ class Book {
         mainContainer.style.color = 'black';
         ballSpan.style.backgroundColor = 'black';
         form.style.color = 'black';
-        darkObj.style.borderColor = 'black';
+        darkMode.style.borderColor = 'black';
         isDark = true;
       }
     });
