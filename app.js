@@ -20,7 +20,7 @@ let logContainer = document.querySelector('.log-container');
 let darkObj = document.querySelector('.dark-mode');
 let bookCount = document.querySelector('.count');
 let isDark = true;
-document.addEventListener('DOMContentLoaded', getTasks);
+document.addEventListener('DOMContentLoaded', getBooks);
 formSubmit.addEventListener('click', (e) => {
   let test = () => {
     let returnVal;
@@ -48,7 +48,6 @@ formSubmit.addEventListener('click', (e) => {
       formStatus.value
     );
     storeTaskInLocalStorage(newBook);
-    // myLibrary.push(newBook);
     form.reset();
     form.classList.remove('center');
     body.style.setProperty('--blur', null);
@@ -79,7 +78,7 @@ function removeTaskFromLocalStorage(bookItem) {
   });
   localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 }
-function getTasks() {
+function getBooks() {
   let myLibrary;
   if (localStorage.getItem('myLibrary') === null) {
     myLibrary = [];
