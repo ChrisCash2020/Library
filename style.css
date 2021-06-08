@@ -276,6 +276,12 @@ form select {
     margin-left: 40px;
   }
 }
+@media (max-width: 1057px) {
+  .main {
+    align-items: center;
+    justify-content: center;
+  }
+}
 @media (max-width: 479px) {
   body {
     align-items: stretch;
