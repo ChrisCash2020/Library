@@ -38,7 +38,6 @@ body {
 }
 form {
   display: flex;
-  /* color: white; */
   flex-direction: column;
   font-size: 1rem;
   padding: 5vh 3vw;
@@ -121,13 +120,16 @@ form select {
 .container {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   width: 100%;
 }
 .nav {
   width: 100%;
   display: flex;
   flex-direction: row;
-  height: 220px;
+  height: auto;
+  padding-bottom: 2vh;
+  border-bottom: 15px solid #ffe149;
 }
 .heading {
   display: flex;
@@ -190,6 +192,7 @@ form select {
 }
 .log-container p:last-child {
   padding-right: 20px;
+  user-select: none;
 }
 .main {
   display: flex;
@@ -197,10 +200,7 @@ form select {
   gap: 1rem;
   color: black;
   flex-direction: row;
-  min-height: 50vh;
-  margin-top: 2.5vh;
   padding-top: 2vh;
-  border-top: 15px solid #ffe149;
 }
 .card {
   border: 1px solid transparent;
@@ -254,5 +254,31 @@ form select {
   width: 15px;
   background-color: black;
   border-radius: 50%;
-  /* color: inherit */
+}
+.dark-mode {
+  border: 3px solid black;
+  border-radius: 5px;
+  padding: 5px;
+}
+@media (max-width: 1280px) {
+  .nav {
+    flex-direction: column;
+    align-items: center;
+  }
+  .heading {
+    flex: none;
+    margin-bottom: 3vh;
+  }
+  .log-container {
+    align-items: center;
+  }
+  .log-container p:last-child {
+    margin-left: 40px;
+  }
+}
+@media (max-width: 479px) {
+  body {
+    align-items: stretch;
+    width: 479px;
+  }
 }

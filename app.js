@@ -1,4 +1,3 @@
-let myLibrary = [];
 let fastAppend = (parent, ...children) => {
   children.forEach((child) => {
     parent.appendChild(child);
@@ -18,6 +17,7 @@ let formOpen = document.querySelector('.form-btn');
 let mainContainer = document.querySelector('.main');
 let darkMode = document.querySelector('.dark-mode');
 let logContainer = document.querySelector('.log-container');
+let darkObj = document.querySelector('.dark-mode');
 let bookCount = document.querySelector('.count');
 let isDark = true;
 document.addEventListener('DOMContentLoaded', getTasks);
@@ -48,46 +48,46 @@ formSubmit.addEventListener('click', (e) => {
       formStatus.value
     );
     storeTaskInLocalStorage(newBook);
-    myLibrary.push(newBook);
+    // myLibrary.push(newBook);
     form.reset();
     form.classList.remove('center');
     body.style.setProperty('--blur', null);
     return newBook.addBookToLibrary();
   }
 });
-function storeTaskInLocalStorage(task) {
-  let tasks;
-  if (localStorage.getItem('tasks') === null) {
-    tasks = [];
+function storeTaskInLocalStorage(book) {
+  let myLibrary;
+  if (localStorage.getItem('myLibrary') === null) {
+    myLibrary = [];
   } else {
-    tasks = JSON.parse(localStorage.getItem('tasks'));
+    myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
   }
-  tasks.push(task);
-  localStorage.setItem('tasks', JSON.stringify(tasks));
+  myLibrary.push(book);
+  localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 }
-function removeTaskFromLocalStorage(taskItem) {
-  let tasks;
-  if (localStorage.getItem('tasks') === null) {
-    tasks = [];
+function removeTaskFromLocalStorage(bookItem) {
+  let myLibrary;
+  if (localStorage.getItem('myLibrary') === null) {
+    myLibrary = [];
   } else {
-    tasks = JSON.parse(localStorage.getItem('tasks'));
+    myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
   }
-  tasks.map((element, index) => {
-    if (element.title == taskItem.title) {
-      tasks.splice(index, 1);
+  myLibrary.map((element, index) => {
+    if (element.title == bookItem.title) {
+      myLibrary.splice(index, 1);
     }
   });
-  localStorage.setItem('tasks', JSON.stringify(tasks));
+  localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 }
 function getTasks() {
-  let tasks;
-  if (localStorage.getItem('tasks') === null) {
-    tasks = [];
+  let myLibrary;
+  if (localStorage.getItem('myLibrary') === null) {
+    myLibrary = [];
   } else {
-    tasks = JSON.parse(localStorage.getItem('tasks'));
-    tasks.forEach(function (task) {
-      Object.setPrototypeOf(task, Book);
-      task.prototype.addBookToLibrary(task);
+    myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+    myLibrary.forEach(function (book) {
+      Object.setPrototypeOf(book, Book);
+      book.prototype.addBookToLibrary(book);
     });
   }
 }
@@ -112,7 +112,6 @@ inputs[5].addEventListener('click', (e) => {
     index < 4 ? input.classList.remove('invalid') : input
   );
 });
-
 class Book {
   constructor(title, author, page, logDate, read) {
     (this.title = title),
@@ -150,35 +149,35 @@ class Book {
     ballContainer.className = 'ball-container';
     let ballSpan = document.createElement('span');
     ballSpan.className = 'ball';
-    if (x == undefined) {
-      if (this.read === 'read') {
-        ballContainer.style.justifyContent = 'flex-start';
-        cardContainer.style.background = 'var(--orange)';
-      } else if (this.read == 'not-read') {
-        ballContainer.style.justifyContent = 'flex-end';
-        cardContainer.style.background = 'var(--grey)';
-      }
+    let myLibrary;
+    if (localStorage.getItem('myLibrary') === null) {
+      myLibrary = [];
     } else {
-      if (x.read === 'read') {
-        ballContainer.style.justifyContent = 'flex-start';
-        cardContainer.style.background = 'var(--orange)';
-      } else if (x.read == 'not-read') {
-        ballContainer.style.justifyContent = 'flex-end';
-        cardContainer.style.background = 'var(--grey)';
-      }
+      myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+    }
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+    bookCount.textContent = `${myLibrary.length}`;
+    if (x != undefined ? x.read === 'read' : this.read === 'read') {
+      ballContainer.style.justifyContent = 'flex-start';
+      cardContainer.style.background = 'var(--orange)';
+    } else if (
+      x != undefined ? x.read === 'not-read' : this.read == 'not-read'
+    ) {
+      ballContainer.style.justifyContent = 'flex-end';
+      cardContainer.style.background = 'var(--grey)';
     }
 
-    bookCount.textContent = `${myLibrary.length}`;
     darkMode.addEventListener('click', (e) => {
       e.preventDefault();
       if (isDark == true) {
         body.style.backgroundColor = '#181A1B';
-        body.style.color = '#707070';
-        logContainer.style.color = '#707070';
-        logContainer.children[0].style.borderColor = '#707070';
+        body.style.color = 'white';
+        logContainer.style.color = 'white';
+        logContainer.children[0].style.borderColor = 'white';
         mainContainer.style.color = '#707070';
         ballSpan.style.backgroundColor = '#707070';
         form.style.color = 'white';
+        darkObj.style.borderColor = 'white';
         isDark = false;
       } else if (isDark == false) {
         body.style.backgroundColor = 'white';
@@ -188,6 +187,7 @@ class Book {
         mainContainer.style.color = 'black';
         ballSpan.style.backgroundColor = 'black';
         form.style.color = 'black';
+        darkObj.style.borderColor = 'black';
         isDark = true;
       }
     });
@@ -206,22 +206,18 @@ class Book {
     removeBtn.addEventListener('click', (e) => {
       e.preventDefault();
       let parent = cardContainer;
-      // parent.remove();
-      if (x == undefined) {
-        myLibrary.map((element) => {
-          if (element.title == this.title) {
-            myLibrary.splice(myLibrary.indexOf(element), 1);
-          }
-        });
+      if (x === undefined) {
+        removeTaskFromLocalStorage(this);
       } else {
-        myLibrary.map((element) => {
-          if (element.title == x.title) {
-            myLibrary.splice(myLibrary.indexOf(element), 1);
-          }
-          removeTaskFromLocalStorage(x);
-        });
+        removeTaskFromLocalStorage(x);
       }
-
+      if (localStorage.getItem('myLibrary') === null) {
+        myLibrary = [];
+      } else {
+        myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+      }
+      localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+      bookCount.textContent = `${myLibrary.length}`;
       parent.remove();
     });
     ballContainer.addEventListener('click', (e) => {
@@ -244,6 +240,16 @@ const harryPotter = new Book(
   'May 31, 2021',
   'not-read'
 );
-myLibrary.push(harryPotter);
-harryPotter.addBookToLibrary();
-// harryPotter.storeTaskInLocalStorage();
+
+let sendHarryPotterOnce = (function () {
+  let myLibrary;
+  if (localStorage.getItem('myLibrary') === null) {
+    myLibrary = [];
+  } else {
+    myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+  }
+  localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+  if (myLibrary.length === 0) {
+    storeTaskInLocalStorage(harryPotter);
+  }
+})();
