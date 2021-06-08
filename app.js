@@ -136,7 +136,7 @@ class Book {
     let cardAuthor = document.createElement('p');
     cardAuthor.textContent = `By: ${x == undefined ? this.author : x.author}`;
     let cardPageNum = document.createElement('p');
-    cardPageNum.textContent = `Number of page: ${
+    cardPageNum.textContent = `Number of pages: ${
       x == undefined ? this.page : x.page
     }`;
     let cardAddDate = document.createElement('p');
