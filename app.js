@@ -1,3 +1,9 @@
+let myLibrary;
+if (localStorage.getItem('myLibrary') === null) {
+  myLibrary = [];
+} else {
+  myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+} //basic way to create a json array list of dom objects
 let fastAppend = (parent, ...children) => {
   children.forEach((child) => {
     parent.appendChild(child);
@@ -19,7 +25,7 @@ let darkMode = document.querySelector('.dark-mode');
 let logContainer = document.querySelector('.log-container');
 let bookCount = document.querySelector('.count');
 let isDark = true;
-document.addEventListener('DOMContentLoaded', getBooks);
+document.addEventListener('DOMContentLoaded', getBooks); //this is neccessary so that the function that cretes the dom elements is saved and appears on screen on each reload
 formSubmit.addEventListener('click', (e) => {
   let test = () => {
     let returnVal;
@@ -36,7 +42,7 @@ formSubmit.addEventListener('click', (e) => {
       }
     });
     return returnVal;
-  };
+  }; //basic test to see if something was typed not advanced but works
   e.preventDefault();
   if (test() == true) {
     let newBook = new Book(
@@ -49,27 +55,15 @@ formSubmit.addEventListener('click', (e) => {
     storeTaskInLocalStorage(newBook);
     form.reset();
     form.classList.remove('center');
-    body.style.setProperty('--blur', null);
+    body.style.setProperty('--blur', null); //css variabes can be altered by adding a second condition with a comma, this conditions stops the effect of blur
     return newBook.addBookToLibrary();
   }
 });
 function storeTaskInLocalStorage(book) {
-  let myLibrary;
-  if (localStorage.getItem('myLibrary') === null) {
-    myLibrary = [];
-  } else {
-    myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
-  }
   myLibrary.push(book);
-  localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+  localStorage.setItem('myLibrary', JSON.stringify(myLibrary)); //seems Like i need to have this localstorage.setItem each time i alter the local storage
 }
 function removeTaskFromLocalStorage(bookItem) {
-  let myLibrary;
-  if (localStorage.getItem('myLibrary') === null) {
-    myLibrary = [];
-  } else {
-    myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
-  }
   myLibrary.map((element, index) => {
     if (element.title == bookItem.title) {
       myLibrary.splice(index, 1);
@@ -78,16 +72,10 @@ function removeTaskFromLocalStorage(bookItem) {
   localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 }
 function getBooks() {
-  let myLibrary;
-  if (localStorage.getItem('myLibrary') === null) {
-    myLibrary = [];
-  } else {
-    myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
-    myLibrary.forEach(function (book) {
-      Object.setPrototypeOf(book, Book);
-      book.prototype.addBookToLibrary(book);
-    });
-  }
+  myLibrary.forEach((book) => {
+    Object.setPrototypeOf(book, Book); //since it was passed through the json it lost its object class methods and I need to add them again
+    book.prototype.addBookToLibrary(book);
+  });
 }
 formOpen.addEventListener('click', (e) => {
   e.preventDefault();
@@ -119,8 +107,11 @@ class Book {
       (this.read = read);
   }
   addBookToLibrary(x) {
-    const d = new Date(x == undefined ? this.logDate : x.logDate);
-    let dateFormat = d.toDateString('default', { month: 'long' });
+    //needed to have a x variable bc the this key word leaves things undefined
+    if (x === undefined) x = this;
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+    const d = new Date(x.logDate);
+    let dateFormat = d.toDateString('default', { month: 'long' }); //way to format the date retrieved from forms
     dateFormat = dateFormat.slice(4);
     let cardContainer = document.createElement('div');
     cardContainer.classList.add('column', 'card');
@@ -131,13 +122,11 @@ class Book {
     removeBtn.appendChild(trashIcon);
     let cardTitle = document.createElement('p');
     cardTitle.style.fontSize = '1.2rem';
-    cardTitle.textContent = `${x == undefined ? this.title : x.title}`;
+    cardTitle.textContent = `${x.title}`;
     let cardAuthor = document.createElement('p');
-    cardAuthor.textContent = `By: ${x == undefined ? this.author : x.author}`;
+    cardAuthor.textContent = `By: ${x.author}`;
     let cardPageNum = document.createElement('p');
-    cardPageNum.textContent = `Number of pages: ${
-      x == undefined ? this.page : x.page
-    }`;
+    cardPageNum.textContent = `Number of pages: ${x.page}`;
     let cardAddDate = document.createElement('p');
     cardAddDate.textContent = `Log date: ${dateFormat}`;
     let markRead = document.createElement('p');
@@ -147,20 +136,11 @@ class Book {
     ballContainer.className = 'ball-container';
     let ballSpan = document.createElement('span');
     ballSpan.className = 'ball';
-    let myLibrary;
-    if (localStorage.getItem('myLibrary') === null) {
-      myLibrary = [];
-    } else {
-      myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
-    }
-    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
     bookCount.textContent = `${myLibrary.length}`;
-    if (x != undefined ? x.read === 'read' : this.read === 'read') {
+    if (x.read === 'read') {
       ballContainer.style.justifyContent = 'flex-start';
       cardContainer.style.background = 'var(--orange)';
-    } else if (
-      x != undefined ? x.read === 'not-read' : this.read == 'not-read'
-    ) {
+    } else if (x.read === 'not-read') {
       ballContainer.style.justifyContent = 'flex-end';
       cardContainer.style.background = 'var(--grey)';
     }
@@ -203,30 +183,19 @@ class Book {
     mainContainer.appendChild(cardContainer);
     removeBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      let parent = cardContainer;
-      if (x === undefined) {
-        removeTaskFromLocalStorage(this);
-      } else {
-        removeTaskFromLocalStorage(x);
-      }
-      if (localStorage.getItem('myLibrary') === null) {
-        myLibrary = [];
-      } else {
-        myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
-      }
+      removeTaskFromLocalStorage(x);
       localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
       bookCount.textContent = `${myLibrary.length}`;
-      parent.remove();
+      cardContainer.remove();
     });
     ballContainer.addEventListener('click', (e) => {
       e.preventDefault();
-      let parent = cardContainer;
       if (ballContainer.style.justifyContent == 'flex-end') {
         ballContainer.style.justifyContent = 'flex-start';
-        parent.style.background = 'var(--orange)';
+        cardContainer.style.background = 'var(--orange)';
       } else {
         ballContainer.style.justifyContent = 'flex-end';
-        parent.style.background = 'var(--grey)';
+        cardContainer.style.background = 'var(--grey)';
       }
     });
   }
@@ -240,12 +209,6 @@ const harryPotter = new Book(
 );
 
 let sendHarryPotterOnce = (function () {
-  let myLibrary;
-  if (localStorage.getItem('myLibrary') === null) {
-    myLibrary = [];
-  } else {
-    myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
-  }
   localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
   if (myLibrary.length === 0) {
     storeTaskInLocalStorage(harryPotter);
