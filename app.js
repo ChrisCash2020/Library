@@ -193,9 +193,21 @@ class Book {
       if (ballContainer.style.justifyContent == 'flex-end') {
         ballContainer.style.justifyContent = 'flex-start';
         cardContainer.style.background = 'var(--orange)';
+        myLibrary.map((element) => {
+          if (element.title === x.title) {
+            element.read = 'read';
+          }
+        });
+        localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
       } else {
         ballContainer.style.justifyContent = 'flex-end';
         cardContainer.style.background = 'var(--grey)';
+        myLibrary.map((element) => {
+          if (element.title === x.title) {
+            element.read = 'not-read';
+          }
+        });
+        localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
       }
     });
   }
